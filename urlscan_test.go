@@ -1,9 +1,10 @@
 package urlscan
 
 import (
-	"fmt"
 	"os"
 	"testing"
+
+	"github.com/existentiality/urlscan/utils"
 )
 
 var apiKey = os.Getenv("URLSCAN_API_KEY")
@@ -54,6 +55,8 @@ func TestScan(t *testing.T) {
 	if resp.Visibility != "public" {
 		t.Fatalf("Unexpected visibility: %s", resp.Visibility)
 	}
+
+	utils.Logger.Infof("Successfully Scanned URL: %s", resp.Result)
 }
 
 func TestResult(t *testing.T) {
@@ -64,8 +67,7 @@ func TestResult(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
-	fmt.Println(resp)
-
+	utils.Logger.Infof("Successfully Retrived Result %s for %s", resp.Task.UUID, resp.Task.URL)
 }
 
 func TestSearch(t *testing.T) {
@@ -75,9 +77,9 @@ func TestSearch(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
-	fmt.Println(resp)
-
 	if len(resp.Results) > 100 {
 		t.Fatalf("Unexpected size: %d, expected <=100", len(resp.Results))
 	}
+
+	utils.Logger.Infof("Received %d search results for query", len(resp.Results))
 }
