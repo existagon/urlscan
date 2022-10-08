@@ -20,19 +20,12 @@ func NewClient(apiKey string) Client {
 }
 
 type RequestData struct {
-	body  string
+	body  []byte
 	query map[string]string
 }
 
 func (c Client) MakeRequest(method string, path string, data RequestData) (*http.Response, error) {
-	// Setup body
-	var body []byte
-	if len(data.body) != 0 {
-		body = []byte(data.body)
-	} else {
-		body = nil
-	}
-	bodyReader := bytes.NewReader(body)
+	bodyReader := bytes.NewReader(data.body)
 
 	// Setup url query
 	query := ""
@@ -52,6 +45,8 @@ func (c Client) MakeRequest(method string, path string, data RequestData) (*http
 
 	req.Header.Set("API-Key", c.apiKey)
 	req.Header.Set("User-Agent", fmt.Sprintf("https://github.com/existentiality/urlscan, %s", Version))
+
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 

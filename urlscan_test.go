@@ -1,6 +1,7 @@
 package urlscan
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -24,11 +25,25 @@ func TestMakeRequest(t *testing.T) {
 			"test": "hi",
 			"abc":  "123",
 		},
-		body: "hi there",
+		body: []byte("hi there"),
 	},
 	)
 
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
+}
+
+func TestScan(t *testing.T) {
+	resp, err := client.Scan("https://example.com/", ScanOptions{
+		visibility: "public",
+		country:    "de",
+		tags:       []string{"test"},
+	})
+
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	fmt.Println(resp)
 }
