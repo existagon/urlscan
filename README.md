@@ -44,3 +44,6 @@ for _, result := range result.Results {
 ```
 
 For further documentation, see this package at [pkg.go.dev](https://pkg.go.dev/github.com/existentiality/urlscan#readme-urlscan)
+
+## Contributing
+See [CONTRIBUTING.md](/CONTRIBUTING.md)
