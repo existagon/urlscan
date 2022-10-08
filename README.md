@@ -5,6 +5,9 @@ A <a href="https://urlscan.io">urlscan.io</a> API library for Go
 ![urlscan logo](assets/logo.png)
 </div>
 
+<img src="https://img.shields.io/github/go-mod/go-version/existentiality/urlscan">
+
+
 ## Features
 * Scanning URLs with urlscan
 * Getting scan results
@@ -40,3 +43,4 @@ for _, result := range result.Results {
 }
 ```
 
+For further documentation, see this package at [pkg.go.dev](https://pkg.go.dev/github.com/existentiality/urlscan#readme-urlscan)
