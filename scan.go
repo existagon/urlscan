@@ -41,10 +41,6 @@ type ScanOptions struct {
 	country string
 }
 
-type InternalScanResponseOptions struct {
-	UserAgent string `json:"useragent"`
-}
-
 // Used Internally, JSON Data Response from scan API endpoint
 type InternalScanPostResponse struct {
 	// A message detailing submission success/failure
@@ -58,13 +54,11 @@ type InternalScanPostResponse struct {
 	// The visibility level of the scan. Either "public", "unlisted", or "private"
 	Visibility string `json:"visibility"`
 	// Scan options, currently only user agent
-	Options InternalScanResponseOptions `json:"options"`
+	Options struct {
+		UserAgent string `json:"useragent"`
+	} `json:"options"`
 	// The country the url was scanned from
 	Country string `json:"country"`
-}
-
-type ScanResponseOptions struct {
-	userAgent string
 }
 
 type ScanResponse struct {
@@ -79,7 +73,9 @@ type ScanResponse struct {
 	// The visibility level of the scan. Either "public", "unlisted", or "private"
 	visibility string
 	// Scan options, currently only user agent
-	options ScanResponseOptions
+	options struct {
+		userAgent string
+	}
 	// The country the url was scanned from
 	country string
 }
@@ -124,15 +120,15 @@ func (c Client) Scan(url string, options ScanOptions) (*ScanResponse, error) {
 		return nil, err
 	}
 
-	scanResponse := ScanResponse{
-		message:      responseData.Message,
-		uuid:         responseData.Uuid,
-		resultUrl:    responseData.Result,
-		apiResultUrl: responseData.Api,
-		visibility:   responseData.Visibility,
-		options:      ScanResponseOptions{userAgent: responseData.Options.UserAgent},
-		country:      responseData.Country,
-	}
+	scanResponse := new(ScanResponse)
 
-	return &scanResponse, nil
+	scanResponse.message = responseData.Message
+	scanResponse.uuid = responseData.Uuid
+	scanResponse.resultUrl = responseData.Result
+	scanResponse.apiResultUrl = responseData.Api
+	scanResponse.visibility = responseData.Visibility
+	scanResponse.options.userAgent = responseData.Options.UserAgent
+	scanResponse.country = responseData.Country
+
+	return scanResponse, nil
 }
