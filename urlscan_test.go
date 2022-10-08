@@ -67,3 +67,17 @@ func TestResult(t *testing.T) {
 	fmt.Println(resp)
 
 }
+
+func TestSearch(t *testing.T) {
+	resp, err := client.Search("domain:example.com", 100)
+
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	fmt.Println(resp)
+
+	if len(resp.Results) > 100 {
+		t.Fatalf("Unexpected size: %d, expected <=100", len(resp.Results))
+	}
+}
