@@ -36,9 +36,9 @@ func TestMakeRequest(t *testing.T) {
 
 func TestScan(t *testing.T) {
 	resp, err := client.Scan("https://example.com/", ScanOptions{
-		visibility: "public",
-		country:    "de",
-		tags:       []string{"test", "urlscan-go"},
+		Visibility: "public",
+		Country:    "de",
+		Tags:       []string{"test", "urlscan-go"},
 	})
 
 	if err != nil {

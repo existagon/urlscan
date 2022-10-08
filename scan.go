@@ -12,28 +12,28 @@ import (
 // Optional values for the Scan API
 type ScanOptions struct {
 	// The visibility level of the scan. Either "public", "unlisted", or "private"
-	visibility string
+	Visibility string
 	// User-defined tags used to annotate the scan (e.g. "phishing", "malicious"). Maximum 10 tags.
-	tags []string
+	Tags []string
 	// Override User-Agent for this scan
-	customAgent string
+	CustomAgent string
 	// Override HTTP referer header for this scan
-	customReferer string
+	CustomReferer string
 	// The country to scan the URL from, see [the API] for a list of possible values
 	//
 	// [the API]: https://urlscan.io/api/v1/availableCountries
-	country string
+	Country string
 }
 
 // Scan the Specified URL with the set options
 func (c Client) Scan(url string, options ScanOptions) (*structs.ScanResponse, error) {
 	requestBody := structs.InternalScanPostData{
 		URL:         url,
-		Visibility:  options.visibility,
-		Tags:        options.tags,
-		CustomAgent: options.customAgent,
-		Referer:     options.customReferer,
-		Country:     options.country,
+		Visibility:  options.Visibility,
+		Tags:        options.Tags,
+		CustomAgent: options.CustomAgent,
+		Referer:     options.CustomReferer,
+		Country:     options.Country,
 	}
 	jsonBody, err := json.Marshal(requestBody)
 
