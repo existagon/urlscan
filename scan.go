@@ -2,9 +2,8 @@ package urlscan
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/existentiality/urlscan/structs"
 )
@@ -50,12 +49,12 @@ func (c Client) Scan(url string, options ScanOptions) (*structs.ScanResponse, er
 	}
 
 	if resp.StatusCode != 200 {
-		errorMessage, _ := ioutil.ReadAll(resp.Body)
+		errorMessage, _ := io.ReadAll(resp.Body)
 
-		return nil, errors.New(fmt.Sprintf("Error Scanning URL: %s: %s", resp.Status, errorMessage))
+		return nil, fmt.Errorf(fmt.Sprintf("Error Scanning URL: %s: %s", resp.Status, errorMessage))
 	}
 
-	responseBody, _ := ioutil.ReadAll(resp.Body)
+	responseBody, _ := io.ReadAll(resp.Body)
 
 	var responseData structs.ScanResponse = *new(structs.ScanResponse)
 	err = json.Unmarshal(responseBody, &responseData)

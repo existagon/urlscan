@@ -3,7 +3,7 @@ package urlscan
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/existentiality/urlscan/structs"
 )
@@ -20,7 +20,7 @@ func (c Client) Search(query string, size int) (*structs.SearchResult, error) {
 		return nil, err
 	}
 
-	responseBody, _ := ioutil.ReadAll(resp.Body)
+	responseBody, _ := io.ReadAll(resp.Body)
 	responseData := *new(structs.SearchResult)
 	json.Unmarshal(responseBody, &responseData)
 

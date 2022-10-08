@@ -3,7 +3,7 @@ package urlscan
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/existentiality/urlscan/structs"
 )
@@ -16,7 +16,7 @@ func (c Client) GetResult(uuid string) (*structs.ResultData, error) {
 		return nil, err
 	}
 
-	responseBody, err := ioutil.ReadAll(resp.Body)
+	responseBody, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		return nil, err
