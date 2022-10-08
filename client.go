@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-const Version = "0.0.0"
+const Version = "0.1.0"
 const BaseUrl = "https://urlscan.io/api/v1"
 
 type Client struct {
