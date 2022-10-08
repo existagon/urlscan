@@ -24,7 +24,7 @@ type RequestData struct {
 	query map[string]string
 }
 
-func (c Client) MakeRequest(method string, path string, data RequestData) (*http.Response, error) {
+func (c Client) makeRequest(method string, path string, data RequestData) (*http.Response, error) {
 	bodyReader := bytes.NewReader(data.body)
 
 	// Setup url query
