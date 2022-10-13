@@ -34,18 +34,22 @@ func (c Client) Scan(url string, options ScanOptions) (*structs.ScanResponse, er
 		Referer:     options.CustomReferer,
 		Country:     options.Country,
 	}
-	jsonBody, err := json.Marshal(requestBody)
+	jsonBody, errMarshalBody := json.Marshal(requestBody)
 
-	if err != nil {
-		return nil, err
+	if errMarshalBody != nil {
+		errorMessage := "Unable to create a new JSON Body from the Request Body"
+		err_MarshalReq_Body := fmt.Errorf("Error : %s", errorMessage)
+		return nil, err_MarshalReq_Body
 	}
 
-	resp, err := c.makeRequest("POST", "/scan", RequestData{
+	resp, err_Make_Req := c.makeRequest("POST", "/scan", RequestData{
 		body: jsonBody,
 	})
 
-	if err != nil {
-		return nil, err
+	if err_Make_Req != nil {
+		errorMessage := "Unable to make new HTTP request with Scanned Request Body"
+		err_Make_Req_Formatted := fmt.Errorf("Error is : %s", errorMessage)
+		return nil, err_Make_Req_Formatted
 	}
 
 	if resp.StatusCode != 200 {
@@ -57,10 +61,12 @@ func (c Client) Scan(url string, options ScanOptions) (*structs.ScanResponse, er
 	responseBody, _ := io.ReadAll(resp.Body)
 
 	var responseData structs.ScanResponse = *new(structs.ScanResponse)
-	err = json.Unmarshal(responseBody, &responseData)
+	err_UnMarshall := json.Unmarshal(responseBody, &responseData)
 
-	if err != nil {
-		return nil, err
+	if err_UnMarshall != nil {
+		errorMessage := "Unable to Unmarshall Response Body into ResponseData Struct"
+		err_Unmarshall_Formatted := fmt.Errorf("Error is : %s", errorMessage)
+		return nil, err_Unmarshall_Formatted
 	}
 
 	return &responseData, nil

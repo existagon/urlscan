@@ -17,7 +17,9 @@ func (c Client) Search(query string, size int) (*structs.SearchResult, error) {
 	})
 
 	if err != nil {
-		return nil, err
+		errorMessage := "Unable to make new HTTP request"
+		err_Make_Req_Formatted := fmt.Errorf("Error is : %s", errorMessage)
+		return nil, err_Make_Req_Formatted
 	}
 
 	responseBody, _ := io.ReadAll(resp.Body)

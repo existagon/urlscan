@@ -37,10 +37,12 @@ func (c Client) makeRequest(method string, path string, data RequestData) (*http
 		}
 	}
 
-	req, err := http.NewRequest(method, fmt.Sprintf(`%s%s%s`, BaseUrl, path, query), bodyReader)
+	req, errMakeRequest := http.NewRequest(method, fmt.Sprintf(`%s%s%s`, BaseUrl, path, query), bodyReader)
 
-	if err != nil {
-		return nil, err
+	if errMakeRequest != nil {
+		errorMessage := "Can't make new HTTP request"
+		errMakeRequestFormatted := fmt.Errorf("Error is : %s", errorMessage)
+		return nil, errMakeRequestFormatted
 	}
 
 	req.Header.Set("API-Key", c.apiKey)
@@ -48,10 +50,12 @@ func (c Client) makeRequest(method string, path string, data RequestData) (*http
 
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, errDoRequet := http.DefaultClient.Do(req)
 
-	if err != nil {
-		return nil, err
+	if errDoRequet != nil {
+		errorMessage := "Can't send the HTTP request"
+		errDoRequetFormatted := fmt.Errorf("Error is : %s", errorMessage)
+		return nil, errDoRequetFormatted
 	}
 
 	return resp, nil
