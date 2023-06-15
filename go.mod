@@ -1,4 +1,4 @@
-module github.com/existentiality/urlscan
+module github.com/existagon/urlscan
 
 go 1.19
 
